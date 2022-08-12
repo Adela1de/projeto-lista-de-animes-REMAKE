@@ -5,12 +5,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "tb_user")
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
 
     private Long id;
     private String username;
