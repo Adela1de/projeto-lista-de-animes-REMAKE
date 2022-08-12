@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "users")
@@ -24,9 +22,8 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<User> registerUser(
-            @RequestBody UserPostRequestBody userPostRequestBody,
-            final HttpServletRequest request
-            )
+            @RequestBody UserPostRequestBody userPostRequestBody
+    )
     {
         var user = UserMapper.toUser(userPostRequestBody);
         var savedUser = userService.registerUser(user);
