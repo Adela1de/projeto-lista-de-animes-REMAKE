@@ -7,10 +7,7 @@ import luiz.augusto.userhandlingforanimelistproject.requests.UserPostRequestBody
 import luiz.augusto.userhandlingforanimelistproject.services.UserService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,6 +29,12 @@ public class RegistrationController {
         var savedUser = userService.registerUser(user);
         applicationEventPublisher.publishEvent(new RegistrationCompleteEvent(savedUser, applicationUrl(request)));
         return ResponseEntity.ok("User successfully registered!");
+    }
+
+    @PostMapping("/confirmRegistration")
+    public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token)
+    {
+        return ResponseEntity.ok(userService.validateToken(token));
     }
 
     private String applicationUrl(HttpServletRequest request)

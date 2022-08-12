@@ -28,7 +28,7 @@ public class VerificationToken {
     private User user;
     private Date expirationTime;
 
-    public VerificationToken(String token, User user) {
+    public VerificationToken(User user, String token) {
         this.token = token;
         this.user = user;
         this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
