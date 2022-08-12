@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         );
 
         var calendar = Calendar.getInstance();
-        if(verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime() >= 10)
+        if(verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime() <= 10)
             throw new TokenExpiredException("This token is Expired! ");
 
         var user = verificationToken.getUser();

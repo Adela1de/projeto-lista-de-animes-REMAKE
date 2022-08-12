@@ -23,7 +23,7 @@ public class ApplicationCompleteEventListener implements ApplicationListener<Reg
         var user = event.getUser();
         userService.saveVerificationTokenForUser(user, token);
 
-        var url = event.getApplicationUrl() + "/confirmRegistration?token=" + token;
+        var url = event.getApplicationUrl() + "/users/confirmRegistration?token=" + token;
         log.info("Click the link to verify your e-mail: {}", url);
     }
 }
