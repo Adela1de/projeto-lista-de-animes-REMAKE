@@ -29,7 +29,8 @@ public class RegistrationController {
     )
     {
         var user = UserMapper.toUser(userPostRequestBody);
-        applicationEventPublisher.publishEvent(new RegistrationCompleteEvent(user, applicationUrl(request)));
+        var savedUser = userService.registerUser(user);
+        applicationEventPublisher.publishEvent(new RegistrationCompleteEvent(savedUser, applicationUrl(request)));
         return ResponseEntity.ok("User successfully registered!");
     }
 

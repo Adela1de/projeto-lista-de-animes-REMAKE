@@ -21,7 +21,8 @@ public class ApplicationCompleteEventListener implements ApplicationListener<Reg
     {
         var token = UUID.randomUUID().toString();
         var user = event.getUser();
-        user.setRole("USER");
-        userService.registerUser(event.getUser());
+
+        var url = event.getApplicationUrl() + "/confirmRegistration?token=" + token;
+        log.info("Click the link to verify your e-mail: {}", url);
     }
 }
