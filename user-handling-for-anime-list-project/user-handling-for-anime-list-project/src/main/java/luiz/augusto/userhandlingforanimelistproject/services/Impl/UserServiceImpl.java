@@ -36,9 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String validateToken(String token) {
-        var verificationToken = verificationTokenRepository.findByToken(token).orElseThrow(
-                () -> new ObjectNotFoundException("Invalid token!")
-        );
+        var verificationToken = getVerificationToken(token);
 
         var calendar = Calendar.getInstance();
         if(verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime() <= 10)
@@ -49,5 +47,18 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return "User successfully enabled! ";
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String token) {
+        return verificationTokenRepository.findByToken(token).orElseThrow(
+                () -> new ObjectNotFoundException("Token does not exists! ")
+        );
+    }
+
+    @Override
+    public void saveVerificationToken(VerificationToken verificationToken)
+    {
+        verificationTokenRepository.save(verificationToken);
     }
 }

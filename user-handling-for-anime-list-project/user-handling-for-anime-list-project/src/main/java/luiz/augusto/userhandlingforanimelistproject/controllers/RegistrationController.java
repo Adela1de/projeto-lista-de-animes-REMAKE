@@ -2,6 +2,7 @@ package luiz.augusto.userhandlingforanimelistproject.controllers;
 
 import lombok.RequiredArgsConstructor;
 import luiz.augusto.userhandlingforanimelistproject.events.RegistrationCompleteEvent;
+import luiz.augusto.userhandlingforanimelistproject.events.ResendVerificationTokenEvent;
 import luiz.augusto.userhandlingforanimelistproject.mapper.UserMapper;
 import luiz.augusto.userhandlingforanimelistproject.requests.UserPostRequestBody;
 import luiz.augusto.userhandlingforanimelistproject.services.UserService;
@@ -34,7 +35,18 @@ public class RegistrationController {
     @GetMapping("/confirmRegistration")
     public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token)
     {
-        return ResponseEntity.ok(userService.validateToken(token));
+        var result = userService.validateToken(token);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/resentVerificationToken")
+    public ResponseEntity<String> resendVerificationToken(
+            @RequestParam("OldToken") String oldToken,
+            HttpServletRequest request
+    )
+    {
+        applicationEventPublisher.publishEvent(new ResendVerificationTokenEvent(oldToken, applicationUrl(request)));
+        return ResponseEntity.ok("New verification token sent! ");
     }
 
     private String applicationUrl(HttpServletRequest request)
