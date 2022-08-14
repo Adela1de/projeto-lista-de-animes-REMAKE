@@ -40,7 +40,7 @@ public class VerificationToken {
         this.expirationTime = calculateExpirationDate(EXPIRATION_TIME);
     }
 
-    private Date calculateExpirationDate(int expirationTime)
+    public Date calculateExpirationDate(int expirationTime)
     {
         var calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());

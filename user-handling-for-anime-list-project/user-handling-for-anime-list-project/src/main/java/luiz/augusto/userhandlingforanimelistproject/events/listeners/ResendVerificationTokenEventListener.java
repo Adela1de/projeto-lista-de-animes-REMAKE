@@ -18,11 +18,10 @@ public class ResendVerificationTokenEventListener implements ApplicationListener
 
     @Override
     public void onApplicationEvent(ResendVerificationTokenEvent event) {
-        var verificationToken = userService.getVerificationToken(event.getToken());
-        verificationToken.setToken(UUID.randomUUID().toString());
-        userService.saveVerificationToken(verificationToken);
+        var oldToken = event.getToken();
+        var newToken = userService.generateNewVerificationToken(oldToken);
 
-        var url = event.getApplicationUrl() + "/users/confirmRegistration?token=" + verificationToken.getToken();
+        var url = event.getApplicationUrl() + "/users/confirmRegistration?token=" + newToken.getToken();
         log.info("Click the link to verify your e-mail: {}", url);
 
     }

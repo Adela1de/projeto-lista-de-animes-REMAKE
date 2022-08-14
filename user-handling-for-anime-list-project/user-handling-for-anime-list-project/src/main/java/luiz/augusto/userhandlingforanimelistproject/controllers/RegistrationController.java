@@ -39,13 +39,13 @@ public class RegistrationController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/resentVerificationToken")
+    @GetMapping("/resendVerificationToken")
     public ResponseEntity<String> resendVerificationToken(
-            @RequestParam("OldToken") String oldToken,
+            @RequestParam("token") String token,
             HttpServletRequest request
     )
     {
-        applicationEventPublisher.publishEvent(new ResendVerificationTokenEvent(oldToken, applicationUrl(request)));
+        applicationEventPublisher.publishEvent(new ResendVerificationTokenEvent(token, applicationUrl(request)));
         return ResponseEntity.ok("New verification token sent! ");
     }
 
