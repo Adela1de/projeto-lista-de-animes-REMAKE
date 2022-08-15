@@ -2,6 +2,7 @@ package luiz.augusto.userhandlingforanimelistproject.services;
 
 import luiz.augusto.userhandlingforanimelistproject.entities.User;
 import luiz.augusto.userhandlingforanimelistproject.entities.VerificationToken;
+import luiz.augusto.userhandlingforanimelistproject.requests.LogInRequestBody;
 
 public interface UserService {
 
@@ -16,4 +17,6 @@ public interface UserService {
     void saveVerificationToken(VerificationToken token);
 
     VerificationToken generateNewVerificationToken(String oldToken);
+
+    User verifyCredentials(LogInRequestBody logInRequestBody);
 }

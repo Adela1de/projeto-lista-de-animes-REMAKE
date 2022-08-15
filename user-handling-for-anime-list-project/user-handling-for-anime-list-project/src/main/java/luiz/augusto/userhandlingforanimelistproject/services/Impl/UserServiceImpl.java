@@ -5,8 +5,10 @@ import luiz.augusto.userhandlingforanimelistproject.entities.User;
 import luiz.augusto.userhandlingforanimelistproject.entities.VerificationToken;
 import luiz.augusto.userhandlingforanimelistproject.exceptions.ObjectNotFoundException;
 import luiz.augusto.userhandlingforanimelistproject.exceptions.TokenExpiredException;
+import luiz.augusto.userhandlingforanimelistproject.exceptions.WrongPasswordException;
 import luiz.augusto.userhandlingforanimelistproject.repositories.UserRepository;
 import luiz.augusto.userhandlingforanimelistproject.repositories.VerificationTokenRepository;
+import luiz.augusto.userhandlingforanimelistproject.requests.LogInRequestBody;
 import luiz.augusto.userhandlingforanimelistproject.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,5 +72,18 @@ public class UserServiceImpl implements UserService {
         token.setExpirationTime(token.calculateExpirationDate(10));
         verificationTokenRepository.save(token);
         return token;
+    }
+
+    @Override
+    public User verifyCredentials(LogInRequestBody logInRequestBody) {
+
+        var user = userRepository.findByEmail(logInRequestBody.getEmail()).orElseThrow(
+                () -> new ObjectNotFoundException("There is no user with this e-mail")
+        );
+
+        if(!passwordEncoder.matches(logInRequestBody.getPassword(), user.getPassword()))
+            throw new WrongPasswordException("Wrong password");
+
+        return user;
     }
 }

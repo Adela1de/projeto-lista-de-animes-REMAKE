@@ -30,7 +30,8 @@ public class ApplicationCompleteEventListener implements ApplicationListener<Reg
         mailSenderService.sendSimpleMail(user.getEmail(),
                 "Click the link to verify your e-mail: " +
                         urlConfirmation +
-                        " Or click this link to resend the verification token: " +
+                        " \n " +
+                        "Or click this link to resend the verification token: " +
                         urlResend,
                 "E-mail confirmation");
     }
