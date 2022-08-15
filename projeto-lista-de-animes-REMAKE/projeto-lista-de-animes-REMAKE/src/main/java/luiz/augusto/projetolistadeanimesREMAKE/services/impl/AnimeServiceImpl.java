@@ -19,4 +19,7 @@ public class AnimeServiceImpl implements AnimeService {
                 () -> new ObjectNotFoundException("Anime not found!")
         );
     }
+
+    public void saveAnime(Anime anime) { animeRepository.save(anime); }
+
 }
