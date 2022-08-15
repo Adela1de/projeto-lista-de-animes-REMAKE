@@ -3,6 +3,7 @@ package luiz.augusto.userhandlingforanimelistproject.services.Impl;
 import lombok.RequiredArgsConstructor;
 import luiz.augusto.userhandlingforanimelistproject.entities.User;
 import luiz.augusto.userhandlingforanimelistproject.entities.VerificationToken;
+import luiz.augusto.userhandlingforanimelistproject.exceptions.EmailAlreadyInUseException;
 import luiz.augusto.userhandlingforanimelistproject.exceptions.ObjectNotFoundException;
 import luiz.augusto.userhandlingforanimelistproject.exceptions.TokenExpiredException;
 import luiz.augusto.userhandlingforanimelistproject.exceptions.WrongPasswordException;
@@ -26,6 +27,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
+
+        if(userRepository.findByEmail(user.getEmail()).isPresent())
+            throw new EmailAlreadyInUseException("Email already in use");
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
         return userRepository.save(user);
