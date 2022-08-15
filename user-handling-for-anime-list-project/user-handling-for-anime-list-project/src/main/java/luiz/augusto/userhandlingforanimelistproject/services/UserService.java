@@ -11,7 +11,7 @@ public interface UserService {
 
     String validateToken(String token);
 
-    VerificationToken getVerificationToken(String token);
+    VerificationToken getVerificationTokenOrElseThrowObjectNotFoundException(String token);
 
     void saveVerificationToken(VerificationToken token);
 
