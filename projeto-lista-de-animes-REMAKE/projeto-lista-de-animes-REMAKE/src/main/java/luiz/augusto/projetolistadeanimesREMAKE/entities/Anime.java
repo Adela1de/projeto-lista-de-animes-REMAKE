@@ -28,10 +28,9 @@ public class Anime {
     private String synopsis;
 
 
-    public Anime(String name, List<Genre> genre, Integer releaseYear, String author, String synopsis)
+    public Anime(String name, Integer releaseYear, String author, String synopsis)
     {
         this.name = name;
-        this.genre = genre;
         this.releaseYear = releaseYear;
         this.author = author;
         this.synopsis = synopsis;

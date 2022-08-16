@@ -18,8 +18,8 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String name;
-    @ManyToMany(mappedBy = "genre")
     @JsonIgnore
+    @ManyToMany(mappedBy = "genre")
     private List<Anime> anime = new ArrayList<>();
 
     public Genre(String name) { this.name = name; }

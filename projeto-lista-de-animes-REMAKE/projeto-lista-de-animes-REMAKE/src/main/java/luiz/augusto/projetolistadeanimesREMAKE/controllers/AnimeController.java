@@ -6,9 +6,10 @@ import luiz.augusto.projetolistadeanimesREMAKE.entities.Genre;
 import luiz.augusto.projetolistadeanimesREMAKE.mapper.AnimeMapper;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
-import luiz.augusto.projetolistadeanimesREMAKE.services.GenreService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class AnimeController {
 
     private final AnimeService animeService;
-    private final GenreService genreService;
 
     @GetMapping
     public ResponseEntity<Anime> getAnimeById(@RequestParam("animeId") Long animeId)
@@ -24,7 +24,7 @@ public class AnimeController {
         return ResponseEntity.ok().body(animeService.getAnimeById(animeId));
     }
 
-    @PostMapping
+    @PostMapping(path = "/new")
     public ResponseEntity<String> saveNewAnime(@RequestBody AnimePostRequestBody animePostRequestBody)
     {
         var anime = AnimeMapper.toAnime(animePostRequestBody);
@@ -32,11 +32,12 @@ public class AnimeController {
         return ResponseEntity.ok().body("Anime saved!");
     }
 
-    @PostMapping(path = "/genre/new")
-    public ResponseEntity<String> saveNewGenre(@RequestBody Genre genre)
+    @PostMapping(path = "/genres/new")
+    public ResponseEntity<String> addGenresToAnime(@RequestParam("animeId") Long animeId,
+                                                   @RequestBody List<String> genres)
     {
-        genreService.saveGenre(genre);
-        return ResponseEntity.ok().body("Genre successfully saved! " );
+        var anime = animeService.addGenresToAnime(animeId, genres);
+        return ResponseEntity.ok().body("genres added to anime: "+anime.getName());
     }
 
 }
