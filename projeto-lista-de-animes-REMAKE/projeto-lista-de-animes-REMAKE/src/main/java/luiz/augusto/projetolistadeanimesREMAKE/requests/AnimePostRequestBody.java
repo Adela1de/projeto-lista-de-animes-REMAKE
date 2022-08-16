@@ -2,6 +2,7 @@ package luiz.augusto.projetolistadeanimesREMAKE.requests;
 
 import lombok.Getter;
 import lombok.Setter;
+import luiz.augusto.projetolistadeanimesREMAKE.entities.enums.Genre;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class AnimePostRequestBody {
 
     private String name;
-    private List<Integer> genre;
+    private List<Genre> genre;
     private Integer releaseYear;
     private String author;
     private String synopsis;
