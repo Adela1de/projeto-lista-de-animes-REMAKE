@@ -2,7 +2,7 @@ package luiz.augusto.projetolistadeanimesREMAKE.requests;
 
 import lombok.Getter;
 import lombok.Setter;
-import luiz.augusto.projetolistadeanimesREMAKE.entities.enums.Genre;
+import luiz.augusto.projetolistadeanimesREMAKE.entities.Genre;
 
 import java.util.List;
 

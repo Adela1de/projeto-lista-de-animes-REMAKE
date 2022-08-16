@@ -1,59 +1,40 @@
 package luiz.augusto.projetolistadeanimesREMAKE.entities;
 
 import lombok.*;
-import luiz.augusto.projetolistadeanimesREMAKE.entities.enums.Genre;
 
 import javax.persistence.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
-@ToString
-@EqualsAndHashCode
+@Data
 @Table(name = "tb_anime")
 @NoArgsConstructor
 public class Anime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
-    @Getter
-    @Setter
     private String name;
-    private Integer[] genre;
-    @Getter
-    @Setter
+    @ManyToMany
+    @JoinTable(
+            name = "tb_anime_genre",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<Genre> genre = new ArrayList<>();
     private Integer releaseYear;
-    @Getter
-    @Setter
     private String author;
-    @Getter
-    @Setter
     private String synopsis;
 
 
-    public Anime(String name, List<Integer> genre, Integer releaseYear, String author, String synopsis)
+    public Anime(String name, List<Genre> genre, Integer releaseYear, String author, String synopsis)
     {
         this.name = name;
-        setGenre(genre);
+        this.genre = genre;
         this.releaseYear = releaseYear;
         this.author = author;
         this.synopsis = synopsis;
-    }
-
-    public void setGenre(List<Integer> genre)
-    {
-        this.genre = genre.toArray(new Integer[genre.size()]);
-    }
-
-    public List<Genre> getGenre()
-    {
-        List<Integer> listOfGenreCodes = Arrays.asList(genre);
-        List<Genre> listOfGenres = listOfGenreCodes.stream().map((x) -> Genre.valueOf(x)).collect(Collectors.toList());
-        return listOfGenres;
     }
 
 }
