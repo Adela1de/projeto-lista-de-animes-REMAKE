@@ -34,7 +34,7 @@ public class AnimeController {
 
     @PostMapping(path = "/genres/new")
     public ResponseEntity<String> addGenresToAnime(@RequestParam("animeId") Long animeId,
-                                                   @RequestBody List<String> genres)
+                                                   @ModelAttribute List<Genre> genres)
     {
         var anime = animeService.addGenresToAnime(animeId, genres);
         return ResponseEntity.ok().body("genres added to anime: "+anime.getName());

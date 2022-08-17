@@ -11,9 +11,8 @@ public interface AnimeService {
 
     void saveAnime(Anime anime);
 
-    void saveGenresIfNotExists(List<Genre> genres);
+    List<Genre> saveGenresIfNotExists(List<Genre> genres);
 
-    Anime addGenresToAnime(Long animeId, List<String> genres);
+    Anime addGenresToAnime(Long animeId, List<Genre> genres);
 
-    List<Genre> saveNewGenresIfNotExists(List<String> genres);
 }

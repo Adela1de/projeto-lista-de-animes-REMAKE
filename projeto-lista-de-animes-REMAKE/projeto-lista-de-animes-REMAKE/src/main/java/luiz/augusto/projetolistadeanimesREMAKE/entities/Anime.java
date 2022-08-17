@@ -19,7 +19,7 @@ public class Anime {
     @ManyToMany
     @JoinTable(
             name = "tb_anime_genre",
-            joinColumns = @JoinColumn(name = "user_id"),
+            joinColumns = @JoinColumn(name = "anime_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private List<Genre> genre = new ArrayList<>();
