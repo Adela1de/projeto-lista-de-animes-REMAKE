@@ -27,8 +27,7 @@ public class AnimeController {
     @PostMapping(path = "/new")
     public ResponseEntity<String> saveNewAnime(@RequestBody AnimePostRequestBody animePostRequestBody)
     {
-        var anime = AnimeMapper.toAnime(animePostRequestBody);
-        animeService.saveAnime(anime);
+        animeService.saveAnime(animePostRequestBody);
         return ResponseEntity.ok().body("Anime saved!");
     }
 

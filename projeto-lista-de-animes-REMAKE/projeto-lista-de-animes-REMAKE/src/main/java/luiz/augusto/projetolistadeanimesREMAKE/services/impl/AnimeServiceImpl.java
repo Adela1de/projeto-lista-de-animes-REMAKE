@@ -6,10 +6,13 @@ import luiz.augusto.projetolistadeanimesREMAKE.entities.Genre;
 import luiz.augusto.projetolistadeanimesREMAKE.exceptions.ObjectNotFoundException;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.AnimeRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.GenreRepository;
+import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,26 +29,62 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public void saveAnime(Anime anime) {
-        saveGenresIfNotExists(anime.getGenre());
+    public Genre getGenreByName(String name) {
+        return genreRepository.findByName(name).orElseThrow(() -> new ObjectNotFoundException("Genre does not exists"));
+    }
+
+    @Override
+    public void saveAnime(AnimePostRequestBody animePostRequestBody) {
+        var anime = new Anime();
+
+        anime.setName(animePostRequestBody.getName());
+        anime.setAuthor(animePostRequestBody.getAuthor());
+        anime.setSynopsis(animePostRequestBody.getSynopsis());
+        anime.setReleaseYear(animePostRequestBody.getReleaseYear());
+        anime.setGenre(verifyIfGenresExists(animePostRequestBody.getGenre()));
+
         animeRepository.save(anime);
     }
 
     @Override
-    public List<Genre> saveGenresIfNotExists(List<Genre> genres) {
+    public void saveUnsavedGenres(List<String> genres) {
         genres.forEach((x) -> {
-            if(genreRepository.findByName(x.getName()) == null) genreRepository.save(x);
+            if(!genreRepository.findByName(x).isPresent()) genreRepository.save(new Genre(x));
         });
-
-        return genres;
     }
 
     @Override
     public Anime addGenresToAnime(Long animeId, List<Genre> genres) {
         var anime = getAnimeById(animeId);
-        var listOfGenres = saveGenresIfNotExists(genres);
-        anime.getGenre().addAll(listOfGenres);
+        //var listOfGenres = saveGenresIfNotExists(genres);
+        //anime.getGenre().addAll(listOfGenres);
         return animeRepository.save(anime);
+    }
+
+    @Override
+    public List<Genre> verifyIfGenresExists(List<String> genres) {
+
+        List<Genre> savedGenres = new ArrayList<>();
+        var unsavedGenres = genres.stream().filter(
+                (x) -> genreDoesNotExists(x)).collect(Collectors.toList()
+        );
+        var savedGenresString = genres.stream().filter(
+                (x) -> !genreDoesNotExists(x)).collect(Collectors.toList()
+        );
+        savedGenresString.forEach((x) -> savedGenres.add(genreDoesExists(x)));
+        unsavedGenres.forEach((x) -> savedGenres.add(genreRepository.save(new Genre(x))));
+
+        return savedGenres;
+    }
+
+    private boolean genreDoesNotExists(String name)
+    {
+        return !genreRepository.findByName(name).isPresent();
+    }
+
+    private Genre genreDoesExists(String name)
+    {
+        return getGenreByName(name);
     }
 
 }

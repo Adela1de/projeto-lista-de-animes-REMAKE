@@ -16,7 +16,7 @@ public class Anime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "tb_anime_genre",
             joinColumns = @JoinColumn(name = "anime_id"),
