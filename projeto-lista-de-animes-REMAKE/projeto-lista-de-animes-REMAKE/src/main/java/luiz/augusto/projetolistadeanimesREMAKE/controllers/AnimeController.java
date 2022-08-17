@@ -2,14 +2,11 @@ package luiz.augusto.projetolistadeanimesREMAKE.controllers;
 
 import lombok.RequiredArgsConstructor;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.Anime;
-import luiz.augusto.projetolistadeanimesREMAKE.entities.Genre;
-import luiz.augusto.projetolistadeanimesREMAKE.mapper.AnimeMapper;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
+import luiz.augusto.projetolistadeanimesREMAKE.requests.GenrePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,9 +30,9 @@ public class AnimeController {
 
     @PostMapping(path = "/genres/new")
     public ResponseEntity<String> addGenresToAnime(@RequestParam("animeId") Long animeId,
-                                                   @ModelAttribute List<Genre> genres)
+                                                   @RequestBody GenrePostRequestBody genrePostRequestBody)
     {
-        var anime = animeService.addGenresToAnime(animeId, genres);
+        var anime = animeService.addGenresToAnime(animeId, genrePostRequestBody);
         return ResponseEntity.ok().body("genres added to anime: "+anime.getName());
     }
 

@@ -7,6 +7,7 @@ import luiz.augusto.projetolistadeanimesREMAKE.exceptions.ObjectNotFoundExceptio
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.AnimeRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.GenreRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
+import luiz.augusto.projetolistadeanimesREMAKE.requests.GenrePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
 import org.springframework.stereotype.Service;
 
@@ -47,17 +48,9 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public void saveUnsavedGenres(List<String> genres) {
-        genres.forEach((x) -> {
-            if(!genreRepository.findByName(x).isPresent()) genreRepository.save(new Genre(x));
-        });
-    }
-
-    @Override
-    public Anime addGenresToAnime(Long animeId, List<Genre> genres) {
+    public Anime addGenresToAnime(Long animeId, GenrePostRequestBody genrePostRequestBody) {
         var anime = getAnimeById(animeId);
-        //var listOfGenres = saveGenresIfNotExists(genres);
-        //anime.getGenre().addAll(listOfGenres);
+        anime.getGenre().addAll(verifyIfGenresExists(genrePostRequestBody.getNames()));
         return animeRepository.save(anime);
     }
 
