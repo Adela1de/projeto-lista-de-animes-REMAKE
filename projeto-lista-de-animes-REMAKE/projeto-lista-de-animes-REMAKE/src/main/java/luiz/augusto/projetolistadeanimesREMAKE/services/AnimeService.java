@@ -17,5 +17,5 @@ public interface AnimeService {
 
     Anime addGenresToAnime(Long animeId, GenrePostRequestBody genrePostRequestBody);
 
-    List<Genre> verifyIfGenresExists(List<String> genres);
+    List<Genre> verifyIfGenresExistsIfNotSaveIt(List<String> genres);
 }

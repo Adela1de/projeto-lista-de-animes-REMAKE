@@ -3,6 +3,7 @@ package luiz.augusto.projetolistadeanimesREMAKE.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Data
 @Table(name = "tb_anime")
 @NoArgsConstructor
-public class Anime {
+public class Anime implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,8 @@ public class Anime {
     private Integer releaseYear;
     private String author;
     private String synopsis;
+    @ManyToMany(mappedBy = "animes")
+    private List<AnimeRating> animeRatings = new ArrayList<>();
 
 
     public Anime(String name, Integer releaseYear, String author, String synopsis)

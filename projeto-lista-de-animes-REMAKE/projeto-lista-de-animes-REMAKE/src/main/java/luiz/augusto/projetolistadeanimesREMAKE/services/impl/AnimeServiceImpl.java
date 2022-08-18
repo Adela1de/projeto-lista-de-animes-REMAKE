@@ -42,7 +42,7 @@ public class AnimeServiceImpl implements AnimeService {
         anime.setAuthor(animePostRequestBody.getAuthor());
         anime.setSynopsis(animePostRequestBody.getSynopsis());
         anime.setReleaseYear(animePostRequestBody.getReleaseYear());
-        anime.setGenre(verifyIfGenresExists(animePostRequestBody.getGenre()));
+        anime.setGenre(verifyIfGenresExistsIfNotSaveIt(animePostRequestBody.getGenre()));
 
         animeRepository.save(anime);
     }
@@ -50,21 +50,21 @@ public class AnimeServiceImpl implements AnimeService {
     @Override
     public Anime addGenresToAnime(Long animeId, GenrePostRequestBody genrePostRequestBody) {
         var anime = getAnimeById(animeId);
-        anime.getGenre().addAll(verifyIfGenresExists(genrePostRequestBody.getNames()));
+        anime.getGenre().addAll(verifyIfGenresExistsIfNotSaveIt(genrePostRequestBody.getNames()));
         return animeRepository.save(anime);
     }
 
     @Override
-    public List<Genre> verifyIfGenresExists(List<String> genres) {
+    public List<Genre> verifyIfGenresExistsIfNotSaveIt(List<String> genres) {
 
         List<Genre> savedGenres = new ArrayList<>();
         var unsavedGenres = genres.stream().filter(
                 (x) -> genreDoesNotExists(x)).collect(Collectors.toList()
         );
-        var savedGenresString = genres.stream().filter(
+        var savedGenresAsString = genres.stream().filter(
                 (x) -> !genreDoesNotExists(x)).collect(Collectors.toList()
         );
-        savedGenresString.forEach((x) -> savedGenres.add(genreDoesExists(x)));
+        savedGenresAsString.forEach((x) -> savedGenres.add(genreDoesExists(x)));
         unsavedGenres.forEach((x) -> savedGenres.add(genreRepository.save(new Genre(x))));
 
         return savedGenres;
