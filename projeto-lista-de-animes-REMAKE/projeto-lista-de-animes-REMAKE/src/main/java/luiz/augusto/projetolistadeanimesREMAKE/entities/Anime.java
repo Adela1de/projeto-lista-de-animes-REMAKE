@@ -29,6 +29,8 @@ public class Anime implements Serializable {
     private String synopsis;
     @ManyToMany(mappedBy = "animes")
     private List<AnimeRating> animeRatings = new ArrayList<>();
+    @ManyToMany(mappedBy = "favorites")
+    private List<User> favoriteBy = new ArrayList<>();
 
 
     public Anime(String name, Integer releaseYear, String author, String synopsis)

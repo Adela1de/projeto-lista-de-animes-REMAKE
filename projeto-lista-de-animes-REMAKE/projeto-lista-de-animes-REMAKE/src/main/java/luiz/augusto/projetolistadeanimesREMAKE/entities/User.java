@@ -24,6 +24,13 @@ public class User implements Serializable {
     private boolean enabled = false;
     @ManyToMany(mappedBy = "users")
     private List<AnimeRating> ratings = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "tb_user_favorite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "anime_id")
+    )
+    private List<Anime> favorites = new ArrayList<>();
 
     public User(String username, String email, String password) {
         this.username = username;

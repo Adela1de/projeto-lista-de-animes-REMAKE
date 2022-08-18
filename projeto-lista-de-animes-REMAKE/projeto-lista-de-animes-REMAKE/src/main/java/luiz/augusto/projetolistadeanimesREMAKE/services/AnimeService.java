@@ -24,4 +24,6 @@ public interface AnimeService {
     List<Genre> verifyIfGenresExistsIfNotSaveIt(List<String> genres);
 
     void saveNewAnimeRating(Long animeId, Long userId, AnimeRating animeRating);
+
+    void addFavorite(Long animeId, Long userId);
 }

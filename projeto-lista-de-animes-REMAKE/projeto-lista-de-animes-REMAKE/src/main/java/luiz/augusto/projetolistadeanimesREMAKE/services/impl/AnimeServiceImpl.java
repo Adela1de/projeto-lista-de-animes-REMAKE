@@ -93,6 +93,15 @@ public class AnimeServiceImpl implements AnimeService {
         animeRatingRepository.save(animeRating);
     }
 
+    @Override
+    public void addFavorite(Long animeId, Long userId) {
+        var anime = getAnimeById(animeId);
+        var user = getUserById(userId);
+
+        user.getFavorites().add(anime);
+        userRepository.save(user);
+    }
+
     private boolean genreDoesNotExists(String name)
     {
         return !genreRepository.findByName(name).isPresent();
