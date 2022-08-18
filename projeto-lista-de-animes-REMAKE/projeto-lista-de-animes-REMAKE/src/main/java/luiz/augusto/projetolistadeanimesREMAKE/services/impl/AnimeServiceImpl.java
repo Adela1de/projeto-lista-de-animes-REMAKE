@@ -2,8 +2,10 @@ package luiz.augusto.projetolistadeanimesREMAKE.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.Anime;
+import luiz.augusto.projetolistadeanimesREMAKE.entities.AnimeRating;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.Genre;
 import luiz.augusto.projetolistadeanimesREMAKE.exceptions.ObjectNotFoundException;
+import luiz.augusto.projetolistadeanimesREMAKE.repositories.AnimeRatingRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.AnimeRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.GenreRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
@@ -21,6 +23,7 @@ public class AnimeServiceImpl implements AnimeService {
 
     private final AnimeRepository animeRepository;
     private final GenreRepository genreRepository;
+    private final AnimeRatingRepository animeRatingRepository;
 
     @Override
     public Anime getAnimeById(Long animeId) {
@@ -68,6 +71,12 @@ public class AnimeServiceImpl implements AnimeService {
         unsavedGenres.forEach((x) -> savedGenres.add(genreRepository.save(new Genre(x))));
 
         return savedGenres;
+    }
+
+    @Override
+    public void saveNewAnimeRating(AnimeRating animeRating)
+    {
+        animeRatingRepository.save(animeRating);
     }
 
     private boolean genreDoesNotExists(String name)

@@ -2,6 +2,7 @@ package luiz.augusto.projetolistadeanimesREMAKE.controllers;
 
 import lombok.RequiredArgsConstructor;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.Anime;
+import luiz.augusto.projetolistadeanimesREMAKE.entities.AnimeRating;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.GenrePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
@@ -34,6 +35,13 @@ public class AnimeController {
     {
         var anime = animeService.addGenresToAnime(animeId, genrePostRequestBody);
         return ResponseEntity.ok().body("genres added to anime: "+anime.getName());
+    }
+
+    @PostMapping(path = "/rate/new")
+    public ResponseEntity<String> addNewAnimeRating(@RequestBody AnimeRating animeRating)
+    {
+        animeService.saveNewAnimeRating(animeRating);
+        return ResponseEntity.ok().body("Rating Saved");
     }
 
 }

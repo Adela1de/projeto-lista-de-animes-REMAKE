@@ -2,7 +2,6 @@ package luiz.augusto.projetolistadeanimesREMAKE.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "tb_anime")
+@Table(name = "tb_anime_rating")
 @NoArgsConstructor
 public class AnimeRating implements Serializable {
 
