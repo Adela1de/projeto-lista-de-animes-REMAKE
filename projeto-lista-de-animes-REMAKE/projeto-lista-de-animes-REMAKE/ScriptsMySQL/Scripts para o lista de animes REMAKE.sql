@@ -40,5 +40,12 @@ and tra.anime_id = a.id
 and u.id = 19
 and a.id = 18 ;
 
+##Pega os animes favoritados pelo user
+select a.name from tb_user_favorite tuf
+inner join tb_user u, tb_anime a
+where tuf.anime_id = a.id
+and tuf.user_id = u.id
+and u.id = 19
+
 
 

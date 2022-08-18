@@ -46,4 +46,11 @@ public class AnimeController {
         return ResponseEntity.ok().body("Rating Saved");
     }
 
+    @PostMapping(path = "/favorites/new/{animeId}/{userId}")
+    public ResponseEntity<String> addNewFavorite(@PathVariable Long animeId, @PathVariable Long userId)
+    {
+        animeService.addFavorite(animeId, userId);
+        return ResponseEntity.ok().body("Anime added to favorites");
+    }
+
 }
