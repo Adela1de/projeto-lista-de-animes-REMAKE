@@ -37,10 +37,12 @@ public class AnimeController {
         return ResponseEntity.ok().body("genres added to anime: "+anime.getName());
     }
 
-    @PostMapping(path = "/rate/new")
-    public ResponseEntity<String> addNewAnimeRating(@RequestBody AnimeRating animeRating)
+    @PostMapping(path = "/rate/new/{animeId}/{userId}")
+    public ResponseEntity<String> addNewAnimeRating(@PathVariable Long animeId,
+                                                    @PathVariable Long userId,
+                                                    @RequestBody AnimeRating animeRating)
     {
-        animeService.saveNewAnimeRating(animeRating);
+        animeService.saveNewAnimeRating(animeId, userId, animeRating);
         return ResponseEntity.ok().body("Rating Saved");
     }
 

@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.Anime;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.AnimeRating;
 import luiz.augusto.projetolistadeanimesREMAKE.entities.Genre;
+import luiz.augusto.projetolistadeanimesREMAKE.entities.User;
 import luiz.augusto.projetolistadeanimesREMAKE.exceptions.ObjectNotFoundException;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.AnimeRatingRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.AnimeRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.repositories.GenreRepository;
+import luiz.augusto.projetolistadeanimesREMAKE.repositories.UserRepository;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.AnimePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.requests.GenrePostRequestBody;
 import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
@@ -24,11 +26,19 @@ public class AnimeServiceImpl implements AnimeService {
     private final AnimeRepository animeRepository;
     private final GenreRepository genreRepository;
     private final AnimeRatingRepository animeRatingRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Anime getAnimeById(Long animeId) {
         return animeRepository.findById(animeId).orElseThrow(
                 () -> new ObjectNotFoundException("Anime not found!")
+        );
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new ObjectNotFoundException("User not found!")
         );
     }
 
@@ -74,8 +84,12 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public void saveNewAnimeRating(AnimeRating animeRating)
+    public void saveNewAnimeRating(Long animeId, Long userId, AnimeRating animeRating)
     {
+        var anime = getAnimeById(animeId);
+        var user = getUserById(userId);
+        animeRating.getAnimes().add(anime);
+        animeRating.getUsers().add(user);
         animeRatingRepository.save(animeRating);
     }
 
