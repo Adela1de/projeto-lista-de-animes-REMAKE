@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AnimeRating implements Serializable {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
