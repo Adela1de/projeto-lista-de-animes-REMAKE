@@ -9,6 +9,8 @@ import luiz.augusto.projetolistadeanimesREMAKE.services.AnimeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "animes")
@@ -51,6 +53,13 @@ public class AnimeController {
     {
         animeService.addFavorite(animeId, userId);
         return ResponseEntity.ok().body("Anime added to favorites");
+    }
+
+    @PostMapping(path = "/genres/get")
+    public ResponseEntity<List<Anime>> getAnimesByGenre(@RequestParam("genreName") String genreName)
+    {
+        var animes = animeService.getAnimesByGenre(genreName);
+        return ResponseEntity.ok().body(animes);
     }
 
 }

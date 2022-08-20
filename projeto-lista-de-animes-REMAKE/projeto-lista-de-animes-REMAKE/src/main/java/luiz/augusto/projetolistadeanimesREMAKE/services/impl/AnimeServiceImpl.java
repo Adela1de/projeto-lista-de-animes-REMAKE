@@ -63,7 +63,7 @@ public class AnimeServiceImpl implements AnimeService {
     @Override
     public Anime addGenresToAnime(Long animeId, GenrePostRequestBody genrePostRequestBody) {
         var anime = getAnimeById(animeId);
-        anime.getGenre().addAll(verifyIfGenresExistsIfNotSaveIt(genrePostRequestBody.getNames()));
+        anime.getGenre().addAll(verifyIfGenresExistsIfNotSaveIt(genrePostRequestBody.getName()));
         return animeRepository.save(anime);
     }
 
@@ -71,13 +71,13 @@ public class AnimeServiceImpl implements AnimeService {
     public List<Genre> verifyIfGenresExistsIfNotSaveIt(List<String> genres) {
 
         List<Genre> savedGenres = new ArrayList<>();
-        var unsavedGenres = genres.stream().filter(
-                (x) -> genreDoesNotExists(x)).collect(Collectors.toList()
-        );
+
+        var unsavedGenres = genres.stream().filter(this::genreDoesNotExists).collect(Collectors.toList());
         var savedGenresAsString = genres.stream().filter(
                 (x) -> !genreDoesNotExists(x)).collect(Collectors.toList()
         );
-        savedGenresAsString.forEach((x) -> savedGenres.add(genreDoesExists(x)));
+
+        savedGenresAsString.forEach((x) -> savedGenres.add(getGenreByName(x)));
         unsavedGenres.forEach((x) -> savedGenres.add(genreRepository.save(new Genre(x))));
 
         return savedGenres;
@@ -102,14 +102,14 @@ public class AnimeServiceImpl implements AnimeService {
         userRepository.save(user);
     }
 
+    @Override
+    public List<Anime> getAnimesByGenre(String genreName) {
+        return animeRepository.findAnimesByGenre(genreName);
+    }
+
     private boolean genreDoesNotExists(String name)
     {
         return !genreRepository.findByName(name).isPresent();
-    }
-
-    private Genre genreDoesExists(String name)
-    {
-        return getGenreByName(name);
     }
 
 }

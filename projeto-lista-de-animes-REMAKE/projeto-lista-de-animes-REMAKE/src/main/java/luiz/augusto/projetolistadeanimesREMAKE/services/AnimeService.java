@@ -26,4 +26,6 @@ public interface AnimeService {
     void saveNewAnimeRating(Long animeId, Long userId, AnimeRating animeRating);
 
     void addFavorite(Long animeId, Long userId);
+
+    List<Anime> getAnimesByGenre(String genreName);
 }

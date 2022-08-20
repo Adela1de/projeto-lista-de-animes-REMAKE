@@ -9,5 +9,5 @@ import java.util.List;
 @Setter
 public class GenrePostRequestBody {
 
-    private List<String> names;
+    private List<String> name;
 }
