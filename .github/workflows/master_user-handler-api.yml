@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: 'D:\Intellij\Projects\General-project-anime-list-remake\out\artifacts\user_handling_for_anime_list_project_jar\*.jar'
 
   deploy:
     runs-on: ubuntu-latest
