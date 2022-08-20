@@ -103,7 +103,7 @@ public class AnimeServiceImpl implements AnimeService {
     }
 
     @Override
-    public List<Anime> getAnimesByGenre(String genreName) {
+    public Anime getAnimesByGenre(String genreName) {
         return animeRepository.findAnimesByGenre(genreName);
     }
 

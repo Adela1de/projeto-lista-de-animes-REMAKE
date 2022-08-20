@@ -1,5 +1,6 @@
 package luiz.augusto.projetolistadeanimesREMAKE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,8 +29,10 @@ public class Anime implements Serializable {
     private String author;
     private String synopsis;
     @ManyToMany(mappedBy = "animes")
+    @JsonIgnore
     private List<AnimeRating> animeRatings = new ArrayList<>();
     @ManyToMany(mappedBy = "favorites")
+    @JsonIgnore
     private List<User> favoriteBy = new ArrayList<>();
 
 
